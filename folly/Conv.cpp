@@ -379,8 +379,8 @@ Expected<Tgt, ConversionCode> str_to_floating_fast_float_from_chars(
 
   Tgt result;
   fast_float::parse_options options{
-      fast_float::chars_format::general |
-      fast_float::chars_format::allow_leading_plus};
+      fast_float::chars_format::general /* |
+      fast_float::chars_format::allow_leading_plus */};
   auto [ptr, ec] = fast_float::from_chars_advanced(b, e, result, options);
   bool isOutOfRange{ec == std::errc::result_out_of_range};
   bool isOk{ec == std::errc()};

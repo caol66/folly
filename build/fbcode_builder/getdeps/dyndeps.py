@@ -183,7 +183,7 @@ class WinDeps(DepBase):
                 "MSVC/*/bin/Hostx64/x64/dumpbin.exe"
             ),
             (
-                "C:/Program Files (x86)/"
+                "D:/Program Files (x86)/"
                 "Microsoft Visual Studio/"
                 "*/*/VC/Tools/"
                 "MSVC/*/bin/Hostx64/x64/dumpbin.exe"

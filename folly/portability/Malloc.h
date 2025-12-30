@@ -21,6 +21,36 @@
 #include <folly/CPortability.h>
 #include <folly/portability/Config.h>
 
+#ifdef _WIN32
+#undef USE_JEMALLOC
+#undef FOLLY_USE_JEMALLOC
+#define USE_JEMALLOC 0
+#define FOLLY_USE_JEMALLOC 0
+#define FOLLY_ASSUME_NO_JEMALLOC 1
+#define FOLLY_SANITIZE 1
+
+#ifndef JEMALLOC_NO_RENAME
+#define JEMALLOC_NO_RENAME
+#endif
+
+// 禁用所有 jemalloc 函数
+#define je_malloc malloc
+#define je_calloc calloc
+#define je_realloc realloc
+#define je_free free
+#define je_malloc_usable_size malloc_usable_size
+#define je_mallctl mallctl
+#define je_mallctlbymib mallctlbymib
+#define je_mallctlnametomib mallctlnametomib
+#define je_nallocx nallocx
+#define je_xallocx xallocx
+#define je_sallocx sallocx
+#define je_dallocx dallocx
+#define je_sdallocx sdallocx
+#define je_mallocx mallocx
+#define je_rallocx rallocx
+#endif
+
 #if (defined(USE_JEMALLOC) || defined(FOLLY_USE_JEMALLOC)) && \
     !defined(FOLLY_SANITIZE)
 #if defined(FOLLY_ASSUME_NO_JEMALLOC)

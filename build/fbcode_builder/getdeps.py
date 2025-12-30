@@ -681,6 +681,7 @@ class BuildCmd(ProjectCmdBase):
                         sources_changed = True
 
                 extra_cmake_defines = (
+				    #print(f"999999={args.extra_cmake_defines}")
                     json.loads(args.extra_cmake_defines)
                     if args.extra_cmake_defines
                     else {}
@@ -883,7 +884,7 @@ class BuildCmd(ProjectCmdBase):
             help="Set the build type explicitly.  Cmake and cargo builders act on them. Only Debug and RelWithDebInfo widely supported.",
             choices=["Debug", "Release", "RelWithDebInfo", "MinSizeRel"],
             action="store",
-            default=None,
+            default="Debug",
         )
 
 
@@ -1478,6 +1479,7 @@ def parse_args():
     # the main parser.  We maintain our own list of desired defaults in the
     # common_defaults dictionary, and manually set those if the argument wasn't
     # present at all.
+    #print("00000")
     common_args = argparse.ArgumentParser(add_help=False)
     common_defaults = {}
 
@@ -1488,7 +1490,9 @@ def parse_args():
         kwargs["default"] = argparse.SUPPRESS
         common_args.add_argument(*args, **kwargs)
 
-    add_common_arg("--scratch-path", help="Where to maintain checkouts and build dirs")
+    add_common_arg("--scratch-path",
+                   help="Where to maintain checkouts and build dirs",
+                   )
     add_common_arg(
         "--vcvars-path", default=None, help="Path to the vcvarsall.bat on Windows."
     )
@@ -1593,7 +1597,45 @@ def parse_args():
     )
 
     add_subcommands(sub, common_args)
+    # for test
+    # sys.argv = [
+    #     "getdeps.py",
+    #     "build",
+    #     "--scratch-path", r"F:\work\cpp\folly-build\build",
+    #     "--install-prefix", r"F:\work\cpp\folly-build\installed",
+    #     "--no-tests",
+    #     "--extra-cmake-defines",
+    #     '{\"BUILD_SHARED_LIBS\":\"OFF\",'
+    #     '\"USE_JEMALLOC\":\"OFF\",'
+    #     '\"FOLLY_USE_JEMALLOC\":\"OFF\",'
+    #     '\"FOLLY_USE_LIBUNWIND\":\"OFF\",'
+    #     '\"FOLLY_USE_SYMBOLIZER\":\"OFF\",'
+    #     '\"BUILD_TESTS\":\"OFF\",'
+    #     '\"BUILD_BENCHMARKS\":\"OFF\",'
+    #     '\"BUILD_EXAMPLES\":\"OFF\",'
+    #     '\"FOLLY_WERROR\":\"OFF\",'
+    #     '\"CMAKE_CXX_STANDARD\":\"20\",'
+    #     '\"CMAKE_MSVC_RUNTIME_LIBRARY\":\"MultiThreadedDebug\",'
+    #     '\"CMAKE_CXX_FLAGS\":\"/DUSE_JEMALLOC=0;/DFOLLY_USE_JEMALLOC=0;/DFOLLY_USE_TCMALLOC=0\"'
+    #     '}'
+    # ]
 
+    sys.argv = [
+        "getdeps.py",
+        "build",
+        "--scratch-path", r"F:\work\cpp\folly-build\build",
+        "--install-prefix", r"F:\work\cpp\folly-build\installed",
+        "--no-tests",
+        "--extra-cmake-defines",
+        '{\"BUILD_SHARED_LIBS\":\"OFF\",'
+        '\"FOLLY_USE_JEMALLOC\":\"OFF\",'
+        '\"FOLLY_USE_SYMBOLIZER\":\"OFF\",'
+        '\"BUILD_TESTS\":\"OFF\",'
+        '\"BUILD_BENCHMARKS\":\"OFF\",'
+        '\"CMAKE_CXX_STANDARD\":\"20\",'
+        '\"CMAKE_MSVC_RUNTIME_LIBRARY\":\"MultiThreadedDebug\"'
+        '}'
+    ]
     args = ap.parse_args()
     for var_name, default_value in common_defaults.items():
         if not hasattr(args, var_name):
@@ -1604,6 +1646,7 @@ def parse_args():
 
 def main():
     ap, args = parse_args()
+    #print(f"333333={args}")
     if getattr(args, "func", None) is None:
         ap.print_help()
         return 0

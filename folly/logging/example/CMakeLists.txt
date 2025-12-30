@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-add_executable(logging_example main.cpp)
-target_link_libraries(logging_example logging_example_lib folly)
+#add_executable(logging_example main.cpp)
+#target_link_libraries(logging_example logging_example_lib folly)
 
-add_library(logging_example_lib lib.cpp)
-target_link_libraries(logging_example_lib folly)
+#add_library(logging_example_lib lib.cpp)
+#target_link_libraries(logging_example_lib folly)

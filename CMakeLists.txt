@@ -78,6 +78,11 @@ set(FOLLY_SUPPORT_SHARED_LIBRARY "${BUILD_SHARED_LIBS}")
 include(FBBuildOptions)
 fb_activate_static_library_option()
 
+if(WIN32)
+  set(FOLLY_USE_JEMALLOC OFF CACHE BOOL "Disable jemalloc on Windows" FORCE)
+  set(FOLLY_USE_TCMALLOC OFF CACHE BOOL "Disable tcmalloc on Windows" FORCE)
+endif()
+
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 20)
   set(CMAKE_CXX_STANDARD_REQUIRED ON)

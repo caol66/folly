@@ -149,11 +149,12 @@ class BuildOptions(object):
             # environment. We use a glob to find some version of this script
             # as deployed with Visual Studio.
             if len(vcvarsall) == 0:
+				#vcvarsall="D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
                 # check the 64 bit installs
-                for year in ["2022"]:
+                for year in ["2019"]:
                     vcvarsall += glob.glob(
                         os.path.join(
-                            os.environ.get("ProgramFiles", "C:\\Program Files"),
+                            os.environ.get("Program Files(x86)", r"D:\Program Files (x86)"),
                             "Microsoft Visual Studio",
                             year,
                             "*",
@@ -165,19 +166,19 @@ class BuildOptions(object):
                     )
 
                 # then the 32 bit ones
-                for year in ["2022", "2019", "2017"]:
-                    vcvarsall += glob.glob(
-                        os.path.join(
-                            os.environ["ProgramFiles(x86)"],
-                            "Microsoft Visual Studio",
-                            year,
-                            "*",
-                            "VC",
-                            "Auxiliary",
-                            "Build",
-                            "vcvarsall.bat",
-                        )
-                    )
+                #for year in ["2022", "2019"]:
+                #    vcvarsall += glob.glob(
+                #        os.path.join(
+                #            os.environ.get("ProgramFiles(x86)", "D:\\"),
+                #            "Microsoft Visual Studio",
+                #            year,
+                #            "*",
+                #            "VC",
+                #            "Auxiliary",
+                #            "Build",
+                #            "vcvarsall.bat",
+                #        )
+                #    )
             if len(vcvarsall) == 0:
                 raise Exception(
                     "Could not find vcvarsall.bat. Please install Visual Studio."
